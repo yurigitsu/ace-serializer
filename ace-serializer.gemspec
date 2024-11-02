@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.add_dependency "panko_serializer"
+  spec.add_dependency "sorbet-runtime"
 end

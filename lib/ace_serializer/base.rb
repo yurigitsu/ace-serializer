@@ -5,24 +5,26 @@ require "panko_serializer"
 require "sorbet-runtime"
 
 module AceSerializer
+  # This class serves as the base serializer for AceSerializer based on OJ Panko::Serializer.
   class Base < Panko::Serializer
     class << self
       extend T::Sig
 
       StructHash = T.type_alias { T::Hash[T.any(Symbol, String), T.untyped] }
       OptHash = T.type_alias { T::Hash[Symbol, T.untyped] }
+      NilSymbol = T.type_alias { T.nilable(Symbol) }
 
-      sig { params(key: T.nilable(Symbol)).returns(T.nilable(Symbol)) }
+      sig { params(key: NilSymbol).returns(NilSymbol) }
       def root(key = nil)
         @root ||= key
       end
 
-      sig { params(key: T.nilable(Symbol)).returns(T.nilable(Symbol)) }
+      sig { params(key: NilSymbol).returns(NilSymbol) }
       def root_item(key = nil)
         @root_item ||= key
       end
 
-      sig { params(key: T.nilable(Symbol)).returns(T.nilable(Symbol)) }
+      sig { params(key: NilSymbol).returns(NilSymbol) }
       def root_array(key = nil)
         @root_array ||= key
       end
