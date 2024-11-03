@@ -33,7 +33,7 @@ module AceSerializer
       def serialize_item(item, **opt)
         root_key = root_item || root
 
-        item = _hash_to_struct(item) if item.is_a?(Hash)
+        item = hash_to_struct(item) if item.is_a?(Hash)
         return new(**opt).serialize_to_json(item) if root_key.nil?
 
         Panko::Response.create { |r| { root_key => r.serializer(item, self, **opt) } }
@@ -44,7 +44,7 @@ module AceSerializer
         root_key = root_array || root
 
         # WIP: so far assumed homogeneous collection
-        array = array.map { |item| _hash_to_struct(item) } if array.first.is_a?(Hash)
+        array = array.map { |item| hash_to_struct(item) } if array.first.is_a?(Hash)
         collection = Panko::ArraySerializer.new(array, each_serializer: self, **opt)
 
         return collection.to_json if root_key.nil?
@@ -53,8 +53,8 @@ module AceSerializer
       end
 
       sig { params(hash: StructHash).returns(Struct) }
-      def _hash_to_struct(hash)
-        transformed_hash = hash.transform_values { |value| value.is_a?(Hash) ? _hash_to_struct(value) : value }
+      def hash_to_struct(hash)
+        transformed_hash = hash.transform_values { |value| value.is_a?(Hash) ? hash_to_struct(value) : value }
 
         struct(transformed_hash)
       end
@@ -63,5 +63,7 @@ module AceSerializer
         Struct.new(*hash.keys).new(*hash.values)
       end
     end
+
+    private_class_method :hash_to_struct, :struct
   end
 end

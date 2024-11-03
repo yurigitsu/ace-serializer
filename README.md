@@ -1,18 +1,12 @@
-# ace-XXXXX
+# AceSerializer
 
-is a Ruby gem created to 
-
-- **ace-XXXXX** provides 
-
-- **ace-XXXXX** offers 
-
-- **ace-XXXXX** supports 
+AceSerializer is a Ruby gem that provides a flexible and efficient way to serialize Ruby objects into JSON format using the Panko serializer. It is designed to be lightweight and easy to use, making it suitable for various applications.
 
 ## Features
 
-- **XXXXX Execution**: Execute 
-- **XXXXX Handling**: Handles
-- **XXXXX Handling**: Handles
+- **Customizable Serialization**: Easily define root keys for serialized items and arrays.
+- **Support for Hashes and Structs**: Serialize both Hash and Struct objects seamlessly.
+- **Array Serialization**: Handle collections of items with ease, including support for homogeneous collections.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -27,33 +21,47 @@ is a Ruby gem created to
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+To install the gem, add it to your application's Gemfile:
 
 ```bash
-bundle add ace-XXXXX
+bundle add ace-serializer
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+If you are not using Bundler, you can install the gem directly:
 
 ```bash
-gem install ace-XXXXX
+gem install ace-serializer
 ```
 
 ## Basic Usage
 
-XXXXX
+To use AceSerializer, you can create a serializer class that inherits from `AceSerializer::Base`. Here’s a simple example:
 
 ```ruby
-XXXXX
-```
+class UserSerializer < AceSerializer::Base
+  attributes :id, :name, :email
+end
 
+user = { id: 1, name: "John Doe", email: "john@example.com" }
+serialized_user = UserSerializer.serialize_item(user)
+puts serialized_user
+```
 
 ## Advanced Usage
 
-XXXXX
+For more advanced serialization, you can customize the root keys for items and arrays:
 
 ```ruby
-XXXXX
+class ProductSerializer < AceSerializer::Base
+  root :product
+  root_array :products
+
+  attributes :id, :name, :price
+end
+
+products = [{ id: 1, name: "Product A", price: 100 }, { id: 2, name: "Product B", price: 150 }]
+serialized_products = ProductSerializer.serialize_array(products)
+puts serialized_products
 ```
 
 ## Development
@@ -64,7 +72,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/yurigitsu/ace-XXXXX. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/yurigitsu/ace-XXXXX/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/yourusername/ace-serializer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/yourusername/ace-serializer/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -72,4 +80,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the AceXXXXX project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/yurigitsu/ace-XXXXX/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the AceSerializer project's codebases, issue trackers, chat rooms, and mailing lists is expected to follow the [code of conduct](https://github.com/yourusername/ace-serializer/blob/main/CODE_OF_CONDUCT.md).
