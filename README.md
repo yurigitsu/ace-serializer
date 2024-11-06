@@ -1,6 +1,6 @@
 # AceSerializer
 
-AceSerializer is a Ruby gem that provides a flexible and efficient way to serialize Ruby objects into JSON format using the [Panko serializer](#https://github.com/yosiat/panko_serializer) . It is designed to be lightweight and easy to use, making it suitable for various applications.
+AceSerializer is a Ruby gem that provides a flexible and efficient way to serialize Ruby objects into JSON format using the [Panko serializer](https://github.com/yosiat/panko_serializer). It is designed to be lightweight and easy to use, making it suitable for various applications.
 
 ## Features
 
