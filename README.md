@@ -1,6 +1,6 @@
 # AceSerializer
 
-AceSerializer is a Ruby gem that provides a flexible and efficient way to serialize Ruby objects into JSON format using the Panko serializer. It is designed to be lightweight and easy to use, making it suitable for various applications.
+AceSerializer is a Ruby gem that provides a flexible and efficient way to serialize Ruby objects into JSON format using the [Panko serializer](#https://github.com/yosiat/panko_serializer) . It is designed to be lightweight and easy to use, making it suitable for various applications.
 
 ## Features
 
@@ -57,11 +57,47 @@ class ProductSerializer < AceSerializer::Base
   root_array :products
 
   attributes :id, :name, :price
+
+  view :item do |context, scope|
+    only: {
+      instance: [:title, :body, :author, :comments],
+      author: [:id],
+      comments: {
+        instance: [:id, :author],
+        author: [:name]
+      }
+    }
+  end 
+
+
+  view :shipping_item do |context, scope|
+    only: {
+      instance: [:title, :body, :author, :comments],
+      author: [:id],
+      comments: {
+        instance: [:id, :author],
+        author: [:name]
+      }
+    }
+  end
+
+  view :inventory_items do |context, scope|
+    only: {
+      instance: [:id, :name]
+    }
+  end
 end
 
 products = [{ id: 1, name: "Product A", price: 100 }, { id: 2, name: "Product B", price: 150 }]
-serialized_products = ProductSerializer.serialize_array(products)
-puts serialized_products
+item = products.first 
+
+ProductSerializer.serialize_item(item)
+ProductSerializer.serialize_item(item, view: :item)
+ProductSerializer.serialize_item(item, view: :shipping_item)
+
+
+ProductSerializer.serialize_array(products)
+ProductSerializer.serialize_array(products, view: :inventory_items)
 ```
 
 ## Development

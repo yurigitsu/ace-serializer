@@ -2,9 +2,15 @@
 # frozen_string_literal: true
 
 module Dummy
-  def support_dummy_serializer(attributes)
-    stub_const("DummySerializer", Class.new(AceSerializer::Base) do
+  def support_dummy_serializer(*attributes, klass: "DummySerializer")
+    stub_const(klass, Class.new(AceSerializer::Base) do
       attributes(*attributes)
+
+      view :user_details do |_context, _scope|
+        {
+          only: [:user]
+        }
+      end
     end)
   end
 

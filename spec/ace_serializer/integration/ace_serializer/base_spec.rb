@@ -5,25 +5,31 @@ require "spec_helper"
 
 RSpec.describe AceSerializer::Base do
   before do
-    support_dummy_serializer(:user)
+    support_dummy_serializer(:user, :age)
     DummySerializer.root(:data)
   end
 
-  context "when root is set" do
-    let(:payload) { { user: "Joe Doe" } }
-    let(:user) { support_dummy_struct(payload) }
+  let(:payload) { { user: "Joe Doe", age: 25 } }
+  let(:user) { support_dummy_struct(payload) }
 
+  context "when root is set" do
     describe "#serialize_item" do
       it "serializes the item with the root" do
-        json = "{\"data\":{\"#{payload.keys.first}\":\"#{payload.values.first}\"}\n}\n"
+        json = "{\"data\":#{payload.to_json}\n}\n"
 
         expect(DummySerializer.serialize_item(user).to_json).to eq(json)
+      end
+
+      it "serializes the item with the root and view" do
+        json = "{\"data\":#{payload.except(:age).to_json}\n}\n"
+
+        expect(DummySerializer.serialize_item(user, view: :user_details).to_json).to eq(json)
       end
     end
 
     describe "#serialize_array" do
       it "serializes the array with the root" do
-        json = "{\"data\":[{\"user\":\"Joe Doe\"}]\n}\n"
+        json = "{\"data\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
         expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
       end
@@ -31,16 +37,11 @@ RSpec.describe AceSerializer::Base do
   end
 
   context "when root and root_item are set" do
-    before do
-      DummySerializer.root_item(:data_item)
-    end
-
-    let(:payload) { { user: "Joe Doe" } }
-    let(:user) { support_dummy_struct(payload) }
+    before { DummySerializer.root_item(:data_item) }
 
     describe "#serialize_item" do
       it "serializes the item with the root_item" do
-        json = "{\"data_item\":{\"#{payload.keys.first}\":\"#{payload.values.first}\"}\n}\n"
+        json = "{\"data_item\":{\"user\":\"Joe Doe\",\"age\":25}\n}\n"
 
         expect(DummySerializer.serialize_item(user).to_json).to eq(json)
       end
@@ -48,24 +49,25 @@ RSpec.describe AceSerializer::Base do
 
     describe "#serialize_array" do
       it "serializes the array with the root_item" do
-        json = "{\"data\":[{\"#{payload.keys.first}\":\"#{payload.values.first}\"}]\n}\n"
+        json = "{\"data\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
         expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
+      end
+
+      it "serializes the array with the root and view" do
+        json = "{\"data\":[{\"user\":\"Joe Doe\"}]\n}\n"
+
+        expect(DummySerializer.serialize_array([user], view: :user_details).to_json).to eq(json)
       end
     end
   end
 
   context "when root and root_array are set" do
-    before do
-      DummySerializer.root_array(:data_array)
-    end
-
-    let(:payload) { { user: "Joe Doe" } }
-    let(:user) { support_dummy_struct(payload) }
+    before { DummySerializer.root_array(:data_array) }
 
     describe "#serialize_item" do
       it "serializes the item" do
-        json = "{\"data\":{\"#{payload.keys.first}\":\"#{payload.values.first}\"}\n}\n"
+        json = "{\"data\":{\"user\":\"Joe Doe\",\"age\":25}\n}\n"
 
         expect(DummySerializer.serialize_item(user).to_json).to eq(json)
       end
@@ -73,7 +75,7 @@ RSpec.describe AceSerializer::Base do
 
     describe "#serialize_array" do
       it "serializes the array" do
-        json = "{\"data_array\":[{\"#{payload.keys.first}\":\"#{payload.values.first}\"}]\n}\n"
+        json = "{\"data_array\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
         expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
       end
