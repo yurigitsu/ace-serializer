@@ -3,7 +3,7 @@
 
 require "spec_helper"
 
-RSpec.describe AceSerializer::Base do
+RSpec.describe "AceSerializer::Base" do
   before do
     support_dummy_serializer(:user, :age)
     DummySerializer.root(:data)
