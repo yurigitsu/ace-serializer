@@ -17,13 +17,13 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the item with the root" do
         json = "{\"data\":#{payload.to_json}\n}\n"
 
-        expect(DummySerializer.serialize_item(user).to_json).to eq(json)
+        expect(DummySerializer.item(user).to_json).to eq(json)
       end
 
       it "serializes the item with the root and view" do
         json = "{\"data\":#{payload.except(:age).to_json}\n}\n"
 
-        expect(DummySerializer.serialize_item(user, view: :user_details).to_json).to eq(json)
+        expect(DummySerializer.item(user, view: :user_details).to_json).to eq(json)
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the array with the root" do
         json = "{\"data\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
-        expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
+        expect(DummySerializer.array([user]).to_json).to eq(json)
       end
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the item with the root_item" do
         json = "{\"data_item\":{\"user\":\"Joe Doe\",\"age\":25}\n}\n"
 
-        expect(DummySerializer.serialize_item(user).to_json).to eq(json)
+        expect(DummySerializer.item(user).to_json).to eq(json)
       end
     end
 
@@ -51,13 +51,13 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the array with the root_item" do
         json = "{\"data\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
-        expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
+        expect(DummySerializer.array([user]).to_json).to eq(json)
       end
 
       it "serializes the array with the root and view" do
         json = "{\"data\":[{\"user\":\"Joe Doe\"}]\n}\n"
 
-        expect(DummySerializer.serialize_array([user], view: :user_details).to_json).to eq(json)
+        expect(DummySerializer.array([user], view: :user_details).to_json).to eq(json)
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the item" do
         json = "{\"data\":{\"user\":\"Joe Doe\",\"age\":25}\n}\n"
 
-        expect(DummySerializer.serialize_item(user).to_json).to eq(json)
+        expect(DummySerializer.item(user).to_json).to eq(json)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe "AceSerializer::Base" do
       it "serializes the array" do
         json = "{\"data_array\":[{\"user\":\"Joe Doe\",\"age\":25}]\n}\n"
 
-        expect(DummySerializer.serialize_array([user]).to_json).to eq(json)
+        expect(DummySerializer.array([user]).to_json).to eq(json)
       end
     end
   end

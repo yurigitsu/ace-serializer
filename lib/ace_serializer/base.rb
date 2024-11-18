@@ -54,7 +54,7 @@ module AceSerializer
       end
 
       sig { params(item: T.untyped, view: NilSymbol, opt: OptHash).returns(T.untyped) }
-      def serialize_item(item, view: nil, **opt)
+      def item(item, view: nil, **opt)
         ctx = _serializer_context(opt, view)
         item = _hash_to_struct(item) if item.is_a?(Hash)
 
@@ -66,7 +66,7 @@ module AceSerializer
 
       # WIP: so far assumed homogeneous collection
       sig { params(array: T::Array[T.any(StructHash, T.untyped)], view: NilSymbol, opt: OptHash).returns(T.untyped) }
-      def serialize_array(array, view: nil, **opt)
+      def array(array, view: nil, **opt)
         ctx = _serializer_context(opt, view)
         array = array.map { |item| _hash_to_struct(item) } if array.first.is_a?(Hash)
 

@@ -35,13 +35,13 @@ RSpec.describe AceSerializer::Base do
       it "serializes the classy item" do
         json = "#{payload.to_json}\n"
 
-        expect(DummySerializer.serialize_item(user)).to eq(json)
+        expect(DummySerializer.item(user)).to eq(json)
       end
 
       it "serializes the hash item" do
         json = "#{payload.to_json}\n"
 
-        expect(DummySerializer.serialize_item(payload)).to eq(json)
+        expect(DummySerializer.item(payload)).to eq(json)
       end
     end
 
@@ -49,13 +49,13 @@ RSpec.describe AceSerializer::Base do
       it "serializes the classy array" do
         json = "#{[payload].to_json}\n"
 
-        expect(DummySerializer.serialize_array([user])).to eq(json)
+        expect(DummySerializer.array([user])).to eq(json)
       end
 
       it "serializes the hash array" do
         json = "#{[payload].to_json}\n"
 
-        expect(DummySerializer.serialize_array([payload])).to eq(json)
+        expect(DummySerializer.array([payload])).to eq(json)
       end
     end
   end
