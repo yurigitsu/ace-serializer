@@ -56,34 +56,64 @@ class ProductSerializer < AceSerializer::Base
   root :product
   root_array :products
 
-  attributes :id, :name, :price
+  fields :id, :name, :price
 
+  # ace-config
   view :item do |context, scope|
-    only: {
-      instance: [:title, :body, :author, :comments],
-      author: [:id],
-      comments: {
-        instance: [:id, :author],
-        author: [:name]
-      }
-    }
+    fields :title, :body, :author, :comments    
+    one :author { fields :id }
+    many :comments do 
+      fields :id, :author      
+      one :author, { fields :name }
+    end 
   end 
 
+ def fields(*args)
+    # Abstract logic to handle fields without specifying them
+    @result[:only][:instance] ||= []
+    @result[:only][:instance] << :abstract_fields
+  end
+
+  def one(name, &block)
+    @result[:only][name] = {}
+    instance_eval(&block) if block_given?
+  end
+
+  def many(name, &block)
+    @result[:only][name] = {}
+    instance_eval(&block) if block_given?
+  end
+
+
+  #  {
+  #     only: {
+  #       instance: [:title, :body, :author, :comments],
+  #       author: [:id],
+  #       comments: {
+  #         instance: [:id, :author],
+  #         author: [:name]
+  #       }
+  #     }
+  #   }
 
   view :shipping_item do |context, scope|
-    only: {
-      instance: [:title, :body, :author, :comments],
-      author: [:id],
-      comments: {
-        instance: [:id, :author],
-        author: [:name]
+    { 
+      only: {
+        instance: [:title, :body, :author, :comments],
+        author: [:id],
+        comments: {
+          instance: [:id, :author],
+          author: [:name]
+        }
       }
     }
   end
 
   view :inventory_items do |context, scope|
-    only: {
-      instance: [:id, :name]
+    {
+      only: {
+        instance: [:id, :name]
+      }
     }
   end
 end
